@@ -1,7 +1,7 @@
 (function($) {
     "use strict"; 
-	
-	/* Preloader */
+    
+    	/* Preloader */
 	$(window).on('load', function() {
 		var preloaderFadeOutTime = 500;
 		function hidePreloader() {
@@ -9,11 +9,52 @@
 			setTimeout(function() {
 				preloader.fadeOut(preloaderFadeOutTime);
 			}, 500);
-		}
-		hidePreloader();
+        }
+        function load_google_sheet() {
+            let spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1M-Ocs-a9Ri_9u9-DH_GQNgnnhQRD8v31L2KGMS2blro/edit?usp=sharing';
+            Tabletop.init({
+                key: spreadsheet_url,
+                callback: read_sheets,
+                simpleSheet: false
+            })
+        }
+
+        function create_table_cell(row_index, column_name, data){
+            let td = document.createElement('td');
+            td.appendChild(document.createTextNode( data[row_index][column_name])) ;
+            return td 
+        }
+        function read_sheets(data) {
+            let members = data.members.elements;
+            let calendar = data.calendar.elements;
+
+            let member_table = document.getElementById('member-table');
+            for (let row_index in members){
+                let tr = document.createElement('tr');
+                tr.appendChild( create_table_cell(row_index, 'Name', members));
+                tr.appendChild( create_table_cell(row_index, 'Strikes', members));
+                tr.appendChild( create_table_cell(row_index, 'Fangzahl', members));
+                member_table.appendChild(tr);
+            }
+
+            let calendar_table = document.getElementById('calendar-table');
+            for (let row_index in calendar){
+                let tr = document.createElement('tr');
+                tr.appendChild( create_table_cell(row_index, 'Datum', calendar));
+                tr.appendChild( create_table_cell(row_index, 'Wo', calendar));
+                tr.appendChild( create_table_cell(row_index, 'Was', calendar));
+                calendar_table.appendChild(tr);
+            }
+            
+            filter_table(true);
+
+        }
+
+        hidePreloader();
+        
+        load_google_sheet();
 	});
 
-	
 	/* Navbar Scripts */
 	// jQuery to collapse the navbar on scroll
     $(window).on('scroll load', function() {
@@ -40,21 +81,71 @@
     if (!$(this).parent().hasClass('dropdown'))
         $(".navbar-collapse").collapse('hide');
     });
-
-
-    /* Rotating Text - Morphtext */
-	$("#js-rotating").Morphext({
-		// The [in] animation type. Refer to Animate.css for a list of available animations.
-		animation: "fadeIn",
-		// An array of phrases to rotate are created based on this separator. Change it if you wish to separate the phrases differently (e.g. So Simple | Very Doge | Much Wow | Such Cool).
-		separator: ",",
-		// The delay between the changing of each phrase in milliseconds.
-		speed: 2000,
-		complete: function () {
-			// Called after the entrance animation is executed.
-		}
-    });
     
+    // CALENDAR
+    function filterCalendar(calendar_table, show_future){
+        for (let row_index= 0; row_index < calendar_table.children.length; row_index++){
+            calendar_table.children[row_index].style = "";
+        }
+
+
+        // for (var j = 0; j < td.length; j++) {
+        //     cell = tr[i].getElementsByTagName("td")[j];
+        //     if (cell) {
+        //       if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        //         tr[i].style.display = "";
+        //         break;
+        //       } 
+        //     }
+        //   }
+    }
+
+    function filter_table(show_future){
+        $('#calendar-table tr td').each(function() {
+            // https://stackoverflow.com/questions/7151543/convert-dd-mm-yyyy-string-to-date
+            let date_object = new Date($(this).text().replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3"))
+            if (show_future){
+                if (date_object < new Date())
+                {
+                    $(this).parent().hide();
+                }
+            }else{
+                if (date_object > new Date())
+                {
+                    $(this).parent().hide();
+                }
+            }
+        });
+    }
+    $('#calendar_toggle').on('change', function() {
+        let calendar_table = document.getElementById('calendar-table')
+        
+        $('tr').show();
+        filter_table(this.checked);
+        // if (this.checked){
+        //     filterCalendar(calendar_table,true);
+        // }
+        // if(this.checked){            
+        //     $('#calendar-table tr td').each(function() {
+        //         // https://stackoverflow.com/questions/7151543/convert-dd-mm-yyyy-string-to-date
+        //         let date_object = new Date($(this).text().replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3"))
+        //         if (date_object < new Date())
+        //         {
+        //             $(this).parent().hide();
+        //         }
+        //     });
+        // }else{
+        //     $('#calendar-table tr td').each(function() {
+        //         // https://stackoverflow.com/questions/7151543/convert-dd-mm-yyyy-string-to-date
+        //         let date_object = new Date($(this).text().replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3"))
+        //         if (date_object > new Date())
+        //         {
+        //             $(this).parent().hide();
+        //         }
+        //     });
+        // }
+    });
+
     // GALLERY 
     var slideIndex = 1;
     showSlides(slideIndex);
@@ -110,63 +201,7 @@
     });
 
 
-    /* Contact Form */
-    $("#contactForm").validator().on("submit", function(event) {
-    	if (event.isDefaultPrevented()) {
-            // handle the invalid form...
-            cformError();
-            csubmitMSG(false, "Please fill all fields!");
-        } else {
-            // everything looks good!
-            event.preventDefault();
-            csubmitForm();
-        }
-    });
-
-    function csubmitForm() {
-        // initiate variables with form content
-		var name = $("#cname").val();
-		var email = $("#cemail").val();
-        var message = $("#cmessage").val();
-        var terms = $("#cterms").val();
-        $.ajax({
-            type: "POST",
-            url: "php/contactform-process.php",
-            data: "name=" + name + "&email=" + email + "&message=" + message + "&terms=" + terms, 
-            success: function(text) {
-                if (text == "success") {
-                    cformSuccess();
-                } else {
-                    cformError();
-                    csubmitMSG(false, text);
-                }
-            }
-        });
-	}
-
-    function cformSuccess() {
-        $("#contactForm")[0].reset();
-        csubmitMSG(true, "Message Submitted!");
-        $("input").removeClass('notEmpty'); // resets the field label after submission
-        $("textarea").removeClass('notEmpty'); // resets the field label after submission
-    }
-
-    function cformError() {
-        $("#contactForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-            $(this).removeClass();
-        });
-	}
-
-    function csubmitMSG(valid, msg) {
-        if (valid) {
-            var msgClasses = "h3 text-center tada animated";
-        } else {
-            var msgClasses = "h3 text-center";
-        }
-        $("#cmsgSubmit").removeClass().addClass(msgClasses).text(msg);
-    }
-
-
+   
     /* Back To Top Button */
     // create the back to top button
     $('body').prepend('<a href="body" class="back-to-top page-scroll">Back to Top</a>');

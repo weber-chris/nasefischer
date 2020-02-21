@@ -28,7 +28,8 @@
     <link href="css/fontawesome-all.css" rel="stylesheet">
     <link href="css/swiper.css" rel="stylesheet">
 	<link href="css/magnific-popup.css" rel="stylesheet">
-	<link href="css/styles.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 	
 	<!-- Favicon  -->
     <link rel="icon" href="images/favicon.ico">
@@ -144,7 +145,17 @@
             </div> <!-- end of row -->
             <div class="row">
                 <div class="col-lg-12">
-                    <p>TBD</p>
+                    <table class="table table-hover table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Strikes</th>
+                            <th scope="col">Fangzahl</th>
+                          </tr>
+                        </thead>
+                        <tbody id='member-table'>
+                        </tbody>
+                      </table>
                 </div> <!-- end of col -->
             </div> <!-- end of row -->
         </div> <!-- end of container -->
@@ -198,10 +209,31 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">KALENDER</div>
-                    <h2>Geplantes & Vergangenes</h2>
-                    <p class="p-heading">TBD</p>
+                    <h2>Unsere Aktivitäten</h2>
                 </div> <!-- end of col -->
-            </div> <!-- end of row -->           
+            </div> <!-- end of row --> 
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center">
+                        <input id="calendar_toggle" type="checkbox" checked data-toggle="toggle" data-on="Geplant" data-off="Vergangen" data-onstyle="primary" data-offstyle="primary" data-style="calendar">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-hover table-borderless">
+                        <thead>
+                          <tr>
+                            <th scope="col">Datum</th>
+                            <th scope="col">Wo</th>
+                            <th scope="col">Was</th>
+                          </tr>
+                        </thead>
+                        <tbody id='calendar-table'>
+                        </tbody>
+                      </table>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->    
         </div> <!-- end of container -->
     </div> <!-- end of basic-2 -->
 
@@ -211,26 +243,33 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 statutes-content">
-                    <div class="section-title">STATUTEN</div>
-                    <h2>I. Rechtsform, Zweck und Sitz</h2>
-                    <h3>Art. 1</h3>
-                    <p>Unter dem Namen "Nasenfischverein" (im nachstehenden "Verein" genannt) besteht seit dem 07.04.18 ein nichtgewinnorietierter Verein gemäss den vorliegenden Statuten und im Sinne von Artikel 60 ff. des Schweizerischen Zivilgesetzbuches.</p>
-                    
-                    <h3>Art. 2</h3>
-                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-                    <h3>Art. 3</h3>
-                    <p>Der Sitz des Vereins befindet sich im gemeldeten Wohnsitz des gewählten Präsidenten. Der Verein besteht auf unbeschränkte Dauer.</p>
+                    <div>
+                        <div class="section-title">STATUTEN</div>
+                        <h2>I. Rechtsform, Zweck und Sitz</h2>
+                        <h3>Art. 1</h3>
+                        <p>Unter dem Namen "Nasenfischverein" (im nachstehenden "Verein" genannt) besteht seit dem 07.04.18 ein nichtgewinnorietierter Verein gemäss den vorliegenden Statuten und im Sinne von Artikel 60 ff. des Schweizerischen Zivilgesetzbuches.</p>
+                        
+                        <h3>Art. 2</h3>
+                        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+                        <h3>Art. 3</h3>
+                        <p>Der Sitz des Vereins befindet sich im gemeldeten Wohnsitz des gewählten Präsidenten. Der Verein besteht auf unbeschränkte Dauer.</p>
+                    </div>
                     <div id="expand-dots"><p>...</p></div>
                     <div id="expand-more">
-                    <h2>II. Organisation und Mittel</h2>
-                    <h3>Art. 4</h3>
-                    <p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
+                        <h2>II. Organisation und Mittel</h2>
+                        <h3>Art. 4</h3>
+                        <p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
 
-                    <p>Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.</p>           
+                        <p>Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.</p>           
+                    </div>
                 </div>
-                    <button id="btn_statutes" class="btn-solid-reg">Aufklappen</button>
                 </div> <!-- end of col -->
-            </div> <!-- end of row -->           
+            </div> 
+            <div class="row" >
+                <div class="col-lg-12 ">
+                    <button id="btn_statutes" class="btn-solid-reg">Aufklappen</button>
+                </div>
+            </div><!-- end of row -->           
         </div> <!-- end of container -->
     </div> <!-- end of basic-2 -->
 
@@ -270,6 +309,8 @@
     <script src="js/jquery.easing.min.js"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
     <script src="js/morphext.min.js"></script> <!-- Morphtext rotating text in the header -->
     <script src="js/validator.min.js"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script> <!--Google Sheets Reader-->
     <script src="js/scripts.js"></script> <!-- Custom scripts -->
 </body>
 </html>
