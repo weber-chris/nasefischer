@@ -101,18 +101,18 @@
     }
 
     function filter_table(show_future){
-        $('#calendar-table tr td').each(function() {
+        $('#calendar-table tr').each(function() {
             // https://stackoverflow.com/questions/7151543/convert-dd-mm-yyyy-string-to-date
-            let date_object = new Date($(this).text().replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3"))
+            let date_object = new Date($(this.children[0]).text().replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3"))
             if (show_future){
                 if (date_object < new Date())
                 {
-                    $(this).parent().hide();
+                    $(this).hide();
                 }
             }else{
-                if (date_object > new Date())
+                if (date_object > new Date() || isNaN(date_object))
                 {
-                    $(this).parent().hide();
+                    $(this).hide();
                 }
             }
         });
@@ -122,28 +122,6 @@
         
         $('tr').show();
         filter_table(this.checked);
-        // if (this.checked){
-        //     filterCalendar(calendar_table,true);
-        // }
-        // if(this.checked){            
-        //     $('#calendar-table tr td').each(function() {
-        //         // https://stackoverflow.com/questions/7151543/convert-dd-mm-yyyy-string-to-date
-        //         let date_object = new Date($(this).text().replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3"))
-        //         if (date_object < new Date())
-        //         {
-        //             $(this).parent().hide();
-        //         }
-        //     });
-        // }else{
-        //     $('#calendar-table tr td').each(function() {
-        //         // https://stackoverflow.com/questions/7151543/convert-dd-mm-yyyy-string-to-date
-        //         let date_object = new Date($(this).text().replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3"))
-        //         if (date_object > new Date())
-        //         {
-        //             $(this).parent().hide();
-        //         }
-        //     });
-        // }
     });
 
     // GALLERY 

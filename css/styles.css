@@ -924,6 +924,9 @@ input[type='checkbox'] {
 #statutes .statutes-content{
 	text-align: justify;
 }
+#statutes #expand-dots{
+	text-align: center;
+}
 
 #statutes .expand-row{
 	text-align: center;
