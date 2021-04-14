@@ -32,8 +32,9 @@
             for (let row_index in members){
                 let tr = document.createElement('tr');
                 tr.appendChild( create_table_cell(row_index, 'Name', members));
-                tr.appendChild( create_table_cell(row_index, 'Strikes', members));
                 tr.appendChild( create_table_cell(row_index, 'Fangzahl', members));
+                tr.appendChild( create_table_cell(row_index, 'Schätzung', members));
+                tr.appendChild( create_table_cell(row_index, 'Strikes', members));
                 member_table.appendChild(tr);
             }
 
@@ -46,7 +47,7 @@
                 calendar_table.appendChild(tr);
             }
             
-            filter_table(true);
+            // filter_table(false);
 
         }
 
@@ -101,6 +102,7 @@
     }
 
     function filter_table(show_future){
+        // currently disabled
         $('#calendar-table tr').each(function() {
             // https://stackoverflow.com/questions/7151543/convert-dd-mm-yyyy-string-to-date
             let date_object = new Date($(this.children[0]).text().replace( /(\d{2}).(\d{2}).(\d{4})/, "$2/$1/$3"))
