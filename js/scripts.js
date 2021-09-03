@@ -10,12 +10,20 @@
                 preloader.fadeOut(preloaderFadeOutTime);
             }, 500);
         }
-        function load_google_sheet() {
-            let spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1M-Ocs-a9Ri_9u9-DH_GQNgnnhQRD8v31L2KGMS2blro/edit?usp=sharing';
-            Tabletop.init({
-                key: spreadsheet_url,
-                callback: read_sheets,
-                simpleSheet: false
+        function load_google_sheet_members() {
+            let spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1M-Ocs-a9Ri_9u9-DH_GQNgnnhQRD8v31L2KGMS2blro/pub?output=csv';
+            Papa.parse(spreadsheet_url, {
+                download: true,
+                header: true,
+                complete: read_sheets_members
+            })
+        }
+        function load_google_sheet_calendar() {
+            let spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1_9SON138nrC_5vhjuO3xf0qUeJt-DpiO2hqWmjk-gPY/pub?output=csv';
+            Papa.parse(spreadsheet_url, {
+                download: true,
+                header: true,
+                complete: read_sheets_calendar
             })
         }
 
@@ -39,9 +47,8 @@
             return td
         }
 
-        function read_sheets(data) {
-            let members = data.members.elements;
-            let calendar = data.calendar.elements;
+        function read_sheets_members(data) {
+            let members = data.data;
 
             let member_table = document.getElementById('member-table');
             for (let row_index in members) {
@@ -52,6 +59,10 @@
                 tr.appendChild(create_table_cell(row_index, 'Strikes', members));
                 member_table.appendChild(tr);
             }
+
+        }
+        function read_sheets_calendar(data) {
+            let calendar = data.data;
 
             let calendar_table = document.getElementById('calendar-table');
             for (let row_index in calendar) {
@@ -66,14 +77,12 @@
 
                 calendar_table.appendChild(tr);
             }
-
-            // filter_table(false);
-
         }
 
         hidePreloader();
 
-        load_google_sheet();
+        load_google_sheet_members();
+        load_google_sheet_calendar();
     });
 
     /* Navbar Scripts */
